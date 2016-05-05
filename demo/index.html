@@ -63,28 +63,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     buttonFadeIn.onclick = function() {
       var config = {
         duration: 2000,
-        node: document.getElementById('otherNode'),
-        beforeStart: function() {
-          console.log('starting');
-        },
-        onFinish: function() {
-          console.log('fin');
-        }
+        node: document.getElementById('otherNode')
       };
-      prAnimation.fadeIn(config);
+      prAnimation.fade(config);
     }
 
     buttonFadeOut.onclick = function() {
       var config = {
-        duration: 5000,
-        beforeStart: function() {
-          console.log('starting fadeout');
-        },
-        onFinish: function() {
-          console.log('fin fadeout');
-        }
+        duration: 5000
       }
-      prAnimation.fadeOut(config);
+      prAnimation.fade(config);
     }
 
     buttonTranslate.onclick = function() {
@@ -93,13 +81,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         xFrom: '10px',
         yFrom: '10px',
         xTo: '100%',
-        yTo: 200,
-        beforeStart: function() {
-          console.log('starting translate');
-        },
-        onFinish: function() {
-          console.log('fin translate');
-        }
+        yTo: 200
       }
       prAnimation.translate(config);
     }

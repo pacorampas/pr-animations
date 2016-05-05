@@ -35,37 +35,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     //var gEffectC = new GroupEffect([sEffectA]);
     //var anim3 = document.timeline.play(gEffectC);
 
-    //config.onFinish and config.onCancel and confing.beforeStart
+    properties: {
+      player: {
+        type: Object,
+        value: {}
+      }
+    },
+
     runAnimation: function(animation, config) {
-      if (!config) {
-        config = {};
-      }
-
-      if (config.beforeStart && typeof config.beforeStart === 'function') {
-        config.beforeStart();
-      }
-
-      var player = document.timeline.play(animation);
-
-      if (config.onFinish && typeof config.onFinish === 'function') {
-        player.onfinish = function() {
-          config.onFinish();
-        };
-      }
-
-      if (config.onCancel && typeof config.onCancel === 'function') {
-        player.oncancel = function() {
-          config.onCancel();
-        };
-      }
+      this.player = document.timeline.play(animation);
     },
 
-    fadeIn: function(config) {
+    fade: function(config) {
       this.runAnimation(this.fadeInEffect(config), config);
-    },
-
-    fadeOut: function(config) {
-      this.runAnimation(this.fadeOutEffect(config), config);
     },
 
     translate: function(config) {
@@ -97,7 +79,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     //config.x and cofnig.y with px or %
     translateEffect: function(config) {
       var config = this._setupConfig(config || {});
-      console.log(config);
+
       var keyframes = [
         { transform: 'translate3d('+config.xFrom+', '+config.yFrom+', 0)' },
         { transform: 'translate3d('+config.xTo+', '+config.yTo+', 0)' }
@@ -129,7 +111,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
       unit = unit.toString();
       if (unit.search(/(px|%)/) < 0) {
-        console.log(unit);
         return unit+'px';
       }
 
