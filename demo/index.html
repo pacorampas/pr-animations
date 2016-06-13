@@ -46,117 +46,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <div id="otherNode"></div>
 
-    <button id="fadeIn">FadeIn</button>
-    <button id="fadeOut">FadeOut</button>
-    <button id="translate">Translate</button>
-    <button id="group">Group</button>
-    <button id="sequence">sequence</button>
-    <button id="animation">Animation</button>
-    <button id="transition">Transition</button>
-    <button id="transitionFade">TransitionFade</button>
     <button id="animate">Animate</button>
   </body>
   <script>
     var prAnimation = document.getElementById('prAnimation');
-    var buttonFadeIn = document.getElementById('fadeIn');
-    var buttonFadeOut = document.getElementById('fadeOut');
-    var buttonTranslate = document.getElementById('translate');
-    var buttonGroup = document.getElementById('group');
-    var buttonSequence = document.getElementById('sequence');
-    var buttonAnimation = document.getElementById('animation');
-    var buttonTransition = document.getElementById('transition');
-    var buttonTransitionFade = document.getElementById('transitionFade');
     var buttonAnimate = document.getElementById('animate');
-
-    buttonFadeIn.onclick = function() {
-      var config = {
-        duration: 2000,
-        node: document.getElementById('otherNode')
-      };
-      prAnimation.fade(config);
-    }
-
-    buttonFadeOut.onclick = function() {
-      var config = {
-        duration: 5000
-      }
-      prAnimation.fade(config);
-    }
-
-    buttonTranslate.onclick = function() {
-      var config = {
-        duration: 500,
-        xFrom: '10px',
-        yFrom: '10px',
-        xTo: '100%',
-        yTo: 200
-      }
-      prAnimation.translate(config);
-    }
-
-    buttonGroup.onclick = function() {
-      prAnimation.runGroup();
-    }
-
-    buttonSequence.onclick = function() {
-      prAnimation.runSequence();
-    }
-
-    var entry;
-    var exit;
-    buttonAnimation.onclick = function() {
-
-      if(!entry) {
-        entry = prAnimation.prueba();
-      } else if (entry.playState === 'running') {
-        console.log(entry);
-      }
-    }
-
-    var eff = prAnimation.translateEffect({
-      node: document.getElementById('otherNode'),
-      xFrom: 0,
-      yFrom: 0,
-      xTo: 50,
-      yTo: 50
-    });
-
-    var config = {
-      finished: function() {
-        console.log('dew')
-      },
-      prev: function() {
-        console.log('holi');
-      }
-    }
-
-    prAnimation.createTransition(eff, config);
-
-    buttonTransition.onclick = function() {
-      entry = prAnimation.run();
-    }
-
-    var eff2 = prAnimation.fadeEffect();
-
-    var config2 = {
-      finished: () => {
-        prAnimation.style.display = 'none';
-      },
-      prev: () => {
-        prAnimation.style.display = 'block';
-      }
-    }
-
-    prAnimation.createTransition(eff2, config2);
-
-    buttonTransitionFade.onclick = function() {
-      entry = prAnimation.run();
-    }
-
     var node = document.getElementById('otherNode');
+
     var fadePlayer = null;
     function animation() {
-      var effect = prAnimation.fadeEffect();
+      var effect = prAnimation.fadeEffect({node: node});
       fadePlayer = prAnimation.createAnimation(effect);
       fadePlayer.play();
     }
