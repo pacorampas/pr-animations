@@ -1,0 +1,58 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../polymer/polymer.html">
+
+<script>
+  PrTranslateEffect = {
+
+    //config.x and cofnig.y with px or %
+    translateEffect: function(config) {
+      var config = this._setupConfig(config || {});
+
+      var keyframes = [
+        { transform: 'translate3d('+config.xFrom+', '+config.yFrom+', 0)' },
+        { transform: 'translate3d('+config.xTo+', '+config.yTo+', 0)' }
+      ];
+
+      return new KeyframeEffect(config.node, keyframes, config);
+    },
+
+    _setupConfig: function(config) {
+      return {
+        node: config.node || this,
+        duration: config.duration || 1000,
+        easing: config.easing || 'ease-in-out',
+        delay: config.delay || 0,
+        iterations: config.iterations || 1,
+        direction: config.direction || 'normal',
+        fill: config.fill || 'forwards',
+        xFrom: this._setUnitMeasure(config.xFrom),
+        yFrom: this._setUnitMeasure(config.yFrom),
+        xTo: this._setUnitMeasure(config.xTo),
+        yTo: this._setUnitMeasure(config.yTo)
+      }
+    },
+
+    //set by default px
+    _setUnitMeasure: function(unit) {
+      if (!unit) {
+        return 0;
+      }
+      unit = unit.toString();
+      if (unit.search(/(px|%)/) < 0) {
+        return unit+'px';
+      }
+
+      return unit;
+    }
+
+  }
+</script>
+

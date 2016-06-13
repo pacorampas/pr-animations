@@ -31,92 +31,44 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <script>
   PrAnimationsBehavior = {
 
-    //var sEffectA = new SequenceEffect(kEffects);
-    //var gEffectC = new GroupEffect([sEffectA]);
-    //var anim3 = document.timeline.play(gEffectC);
-
     properties: {
+      //deprecated
       player: {
         type: Object,
         value: {}
       }
     },
 
+    //TODO limpiar el player en detached
+    //comprobar que se borra del documen.timeline._animations
+    //TODO crear un init en vez de un run para no animarla desde el principio
+    detached: function() {
+      this.player = null;
+    },
+    //deprecated
     runAnimation: function(animation, config) {
-      this.player = document.timeline.play(animation);
+      var p = document.timeline.play(animation);
+      this.player = p;
+      return p;
     },
 
+    createAnimation: function(effect) {
+      var player = document.timeline.play(effect);
+      player.pause();
+      return player;
+    },
+
+    //deprecated
     fade: function(config) {
       this.runAnimation(this.fadeInEffect(config), config);
     },
 
+    //delete
     translate: function(config) {
       this.runAnimation(this.translateEffect(config), config);
     },
 
-    fadeInEffect: function(config) {
-      var config = this._setupConfig(config || {});
-
-      var keyframes = [
-        { opacity: 0 },
-        { opacity: 1 }
-      ];
-
-      return new KeyframeEffect(config.node, keyframes, config);
-    },
-
-    fadeOutEffect: function(config) {
-      var config = this._setupConfig(config || {});
-
-      var keyframes = [
-        { opacity: 1 },
-        { opacity: 0 }
-      ];
-
-      return new KeyframeEffect(config.node, keyframes, config);
-    },
-
-    //config.x and cofnig.y with px or %
-    translateEffect: function(config) {
-      var config = this._setupConfig(config || {});
-
-      var keyframes = [
-        { transform: 'translate3d('+config.xFrom+', '+config.yFrom+', 0)' },
-        { transform: 'translate3d('+config.xTo+', '+config.yTo+', 0)' }
-      ];
-
-      return new KeyframeEffect(config.node, keyframes, config);
-    },
-
-    _setupConfig: function(config) {
-      return {
-        node: config.node || this,
-        duration: config.duration || 1000,
-        easing: config.easing || 'ease-in-out',
-        delay: config.delay || 0,
-        iterations: config.iterations || 1,
-        direction: config.direction || 'normal',
-        fill: config.fill || 'forwards',
-        xFrom: this._setUnitMeasure(config.xFrom),
-        yFrom: this._setUnitMeasure(config.yFrom),
-        xTo: this._setUnitMeasure(config.xTo),
-        yTo: this._setUnitMeasure(config.yTo)
-      }
-    },
-
-    //set by default px
-    _setUnitMeasure: function(unit) {
-      if (!unit) {
-        return 0;
-      }
-      unit = unit.toString();
-      if (unit.search(/(px|%)/) < 0) {
-        return unit+'px';
-      }
-
-      return unit;
-    },
-
+    //delete
     runGroup: function() {
       var group = [];
       group.push(this.translateEffect({
@@ -132,6 +84,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       this.runAnimation(groupEffect);
     },
 
+    //delete
     //TODO quitar estas funciones
     //?como podemos ejecutar sequencias y grupos?
     runSequence2: function() {
@@ -156,6 +109,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       this.runAnimation(sequenceEffect);
     },
 
+    //delete
     runSequence: function() {
       var sequence = [
         this.fadeOutEffect(),
@@ -176,8 +130,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       var sequenceEffect = new SequenceEffect(sequence);
       this.runAnimation(sequenceEffect);
-    }
+    },
 
+    //delete
+    prueba: function(id) {
+      var config = {
+        node: (id) ? document.getElementById(id) : this,
+        duration: 3000,
+        reverseConfig: {
+          duration: 1000
+        }
+      }
+      return this.runAnimation(this.fadeInEffect(config), config);
+
+
+      return document.getElementById(id).animate([
+        { transform: 'scale(0.2)' },
+        { transform: 'scale(1)' }
+      ], {
+        duration: 3000
+      });
+     //console.log(player);
+    }
   }
 </script>
 
